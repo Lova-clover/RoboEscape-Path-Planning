@@ -15,11 +15,17 @@
 
 ---
 
+![Main Menu](images/main.png)
+
 </div>
 
 ## 🌟 프로젝트 하이라이트
 
-이 게임은 **단순한 게임을 넘어 살아있는 알고리즘 교과서**입니다.
+<div align="center">
+
+### *단순한 게임을 넘어 살아있는 알고리즘 교과서*
+
+</div>
 
 | 특징 | 설명 |
 |------|------|
@@ -29,87 +35,270 @@
 | 🎪 **완성도** | 사이버펑크 메인 메뉴, 6개 스테이지 + 보스전, 파티클 효과, 사운드 |
 | ⚡ **난이도** | 점진적 학습 곡선: 튜토리얼 → 보스전 → 무한 모드 |
 
-> 💡 **왜 특별한가?** 대부분의 교육용 게임은 알고리즘을 "보여주기만" 합니다. 
+<div align="center">
+
+> 💡 **왜 특별한가?**  
+> 대부분의 교육용 게임은 알고리즘을 "보여주기만" 합니다.  
 > 이 게임은 알고리즘과 **상호작용**하고, 그들의 **강점과 약점을 체감**하게 만듭니다.
+
+</div>
 
 ## 🧠 구현된 알고리즘
 
-### 🐛 Bug Algorithms (기초 반응형 추적)
-실제 로봇이 센서만으로 장애물을 피하는 방식을 시뮬레이션
+<div align="center">
 
-| 알고리즘 | 동작 원리 | 시각적 특징 | 약점 |
-|---------|----------|------------|------|
-| **Bug1** | 장애물을 완전히 한 바퀴 돌며 최단 이탈점 찾기 | 🔴 빨간색, 벽 따라 회전 | 복잡한 장애물에서 비효율적 |
-| **Bug2** | M-line 기반 직선 복귀 전략 | 🟠 주황색, 직진 시도 | 좁은 통로에서 헤맴 |
-| **Tangent Bug** | 시야 기반 접선 방향 선택 | 🟡 노란색, 스마트한 회피 | 시야 제한 지형에 약함 |
+### *7가지 Path-Planning 알고리즘이 살아 움직입니다*
+
+</div>
+
+### 🐛 Bug Algorithms (기초 반응형 추적)
+<sup>실제 로봇이 센서만으로 장애물을 피하는 방식</sup>
+
+<table>
+<tr>
+<th width="20%">알고리즘</th>
+<th width="35%">동작 원리</th>
+<th width="25%">시각적 특징</th>
+<th width="20%">약점</th>
+</tr>
+<tr>
+<td align="center"><b>Bug1</b></td>
+<td>장애물을 완전히 한 바퀴 돌며<br/>최단 이탈점 찾기</td>
+<td align="center">🔴 빨간색<br/>벽 따라 회전</td>
+<td>복잡한 장애물에서<br/>비효율적</td>
+</tr>
+<tr>
+<td align="center"><b>Bug2</b></td>
+<td>M-line 기반<br/>직선 복귀 전략</td>
+<td align="center">🟠 주황색<br/>직진 시도</td>
+<td>좁은 통로에서<br/>헤맴</td>
+</tr>
+<tr>
+<td align="center"><b>Tangent Bug</b></td>
+<td>시야 기반<br/>접선 방향 선택</td>
+<td align="center">🟡 노란색<br/>스마트한 회피</td>
+<td>시야 제한<br/>지형에 약함</td>
+</tr>
+</table>
 
 ### ⚡ Artificial Potential Field (물리 기반 추적)
-가상의 인력/척력을 이용한 빠르고 부드러운 경로 생성
+<sup>가상의 인력/척력을 이용한 빠르고 부드러운 경로 생성</sup>
 
-- **동작**: 목표에는 인력, 장애물에는 척력 발생 → 벡터 합으로 이동
-- **시각화**: 🟢 초록색, 유체처럼 흐르는 움직임
-- **치명적 약점**: **Local Minimum** (U자/O자 구조에서 영구 정지)
-- **대응 전략**: E키로 벽 설치 → 함정 생성!
+<table>
+<tr>
+<td width="30%"><b>동작 원리</b></td>
+<td>목표에는 인력, 장애물에는 척력 발생 → 벡터 합으로 이동</td>
+</tr>
+<tr>
+<td><b>시각화</b></td>
+<td>🟢 초록색, 유체처럼 흐르는 움직임</td>
+</tr>
+<tr>
+<td><b>치명적 약점</b></td>
+<td>⚠️ <b>Local Minimum</b> (U자/O자 구조에서 영구 정지)</td>
+</tr>
+<tr>
+<td><b>대응 전략</b></td>
+<td>🎯 <kbd>E</kbd>키로 벽 설치 → 함정 생성!</td>
+</tr>
+</table>
 
 ### 🗺️ Sampling-Based Planning (그래프/트리 탐색)
-공간을 샘플링하여 경로 탐색 - 현대 자율주행의 핵심 기술
+<sup>현대 자율주행의 핵심 기술 - 공간을 샘플링하여 경로 탐색</sup>
 
-| 알고리즘 | 동작 원리 | 실시간 시각화 | 대응법 |
-|---------|----------|--------------|--------|
-| **PRM** | 맵 전체에 랜덤 노드 뿌려 로드맵 구축 → A* 탐색 | 🔵 파란색 그래프 네트워크 | 벽 설치로 그래프 단절 |
-| **RRT** | 시작점에서 트리를 목표까지 성장시킴 | 🟣 보라색 트리 가지들 | 복잡한 지형에서 재계획 유도 |
+<table>
+<tr>
+<th width="15%">알고리즘</th>
+<th width="35%">동작 원리</th>
+<th width="30%">실시간 시각화</th>
+<th width="20%">대응법</th>
+</tr>
+<tr>
+<td align="center"><b>PRM</b></td>
+<td>맵 전체에 랜덤 노드 뿌려<br/>로드맵 구축 → A* 탐색</td>
+<td align="center">🔵 파란색<br/>그래프 네트워크</td>
+<td>벽 설치로<br/>그래프 단절</td>
+</tr>
+<tr>
+<td align="center"><b>RRT</b></td>
+<td>시작점에서 트리를<br/>목표까지 성장시킴</td>
+<td align="center">🟣 보라색<br/>트리 가지들</td>
+<td>복잡한 지형에서<br/>재계획 유도</td>
+</tr>
+</table>
 
-> 🎨 **시각화의 백미**: 적들이 어떻게 "생각"하는지 눈으로 볼 수 있습니다!
+<div align="center">
+
+> 🎨 **시각화의 백미**  
+> 적들이 어떻게 "생각"하는지 눈으로 볼 수 있습니다!
+
+</div>
 
 ### 🎯 Belief Localization (확률적 추적)
-센서 노이즈 속에서 베이지안 추론으로 위치 추정
+<sup>센서 노이즈 속에서 베이지안 추론으로 위치 추정</sup>
 
-- **원리**: Prediction (모션 모델) + Update (센서 관측) 반복
-- **시각화**: 🟪 청보라색 히트맵 (확률 분포)
-- **약점**: Q키 노이즈 폭탄으로 센서 교란 → 엉뚱한 곳으로 유도!
+<table>
+<tr>
+<td width="30%"><b>원리</b></td>
+<td>Prediction (모션 모델) + Update (센서 관측) 반복</td>
+</tr>
+<tr>
+<td><b>시각화</b></td>
+<td>🟪 청보라색 히트맵 (확률 분포 표시)</td>
+</tr>
+<tr>
+<td><b>약점</b></td>
+<td>센서 노이즈에 취약 - 추정 위치가 왜곡됨</td>
+</tr>
+<tr>
+<td><b>대응 전략</b></td>
+<td>🎯 <kbd>Q</kbd>키 노이즈 폭탄으로 센서 교란 → 엉뚱한 곳으로 유도!</td>
+</tr>
+</table>
 
-## � 게임플레이
+## 🎮 게임플레이
 
-### 🎯 목표
-각 스테이지에서 **3개의 열쇠**를 모아 **출구**로 탈출하세요!
+<div align="center">
+
+### 🎯 목표: 3개의 열쇠를 모아 출구로 탈출!
+
+</div>
 
 ### 🕹️ 조작법
 
-| 키 | 기능 | 쿨타임 | 전략적 활용 |
-|----|------|--------|-----------|
-| **WASD** | 이동 | - | 적과 거리 유지 |
-| **Shift** | 대시 | 2.5초 | 위급 상황 탈출 |
-| **E** | 임시 벽 설치 | 6초 | APF 적을 함정에 가두기 |
-| **Q** | 노이즈 폭탄 | 12초 | Belief 적의 센서 교란 |
-| **Space** | 슬로우모션 | 18초 | 보스전 생존 |
-| **ESC** | 일시정지 | - | 전략 재정비 |
+<table>
+<tr>
+<th width="15%">키</th>
+<th width="20%">기능</th>
+<th width="15%">쿨타임</th>
+<th width="50%">전략적 활용</th>
+</tr>
+<tr>
+<td align="center"><kbd>WASD</kbd></td>
+<td><b>이동</b></td>
+<td align="center">-</td>
+<td>적과 거리 유지, 미로 탐색</td>
+</tr>
+<tr>
+<td align="center"><kbd>Shift</kbd></td>
+<td><b>대시</b> ⚡</td>
+<td align="center">2.5초</td>
+<td>위급 상황 탈출, 빠른 회피</td>
+</tr>
+<tr>
+<td align="center"><kbd>E</kbd></td>
+<td><b>임시 벽 설치</b> 🧱</td>
+<td align="center">6초</td>
+<td><b>APF 적을 함정에 가두기</b> (핵심 전략!)</td>
+</tr>
+<tr>
+<td align="center"><kbd>Q</kbd></td>
+<td><b>노이즈 폭탄</b> 💥</td>
+<td align="center">12초</td>
+<td><b>Belief 적의 센서 교란</b> (확률 분포 왜곡)</td>
+</tr>
+<tr>
+<td align="center"><kbd>Space</kbd></td>
+<td><b>슬로우모션</b> ⏱️</td>
+<td align="center">18초</td>
+<td>보스전 생존, 정밀 조작</td>
+</tr>
+<tr>
+<td align="center"><kbd>ESC</kbd></td>
+<td><b>일시정지</b></td>
+<td align="center">-</td>
+<td>전략 재정비, 휴식</td>
+</tr>
+</table>
 
 ### 🏆 스테이지 구성
 
+<table>
+<tr>
+<td width="33%" align="center">
+<img src="images/Stage1-1.png" width="100%"/><br/>
+<b>Stage 1: 튜토리얼</b><br/>
+Bug1 × 3<br/>
+⭐ 기본 조작 익히기
+</td>
+<td width="33%" align="center">
+<img src="images/Stage1-2.png" width="100%"/><br/>
+<b>Stage 1: 열쇠 수집</b><br/>
+첫 열쇠를 획득하는 순간<br/>
+⭐ 미니맵 활용법 학습
+</td>
+<td width="33%" align="center">
+<img src="images/Stage2.png" width="100%"/><br/>
+<b>Stage 2: 패턴 학습</b><br/>
+Bug1, Bug2, Tangent<br/>
+⭐⭐ 벽 따라 움직이는 패턴
+</td>
+</tr>
+<tr>
+<td width="33%" align="center">
+<img src="images/Stage3.png" width="100%"/><br/>
+<b>Stage 3: APF 트랩</b><br/>
+Bug2, APF × 2, Tangent<br/>
+⭐⭐⭐ U자 구조로 APF 무력화
+</td>
+<td width="33%" align="center">
+<img src="images/Stage4.png" width="100%"/><br/>
+<b>Stage 4: 그래프 차단</b><br/>
+Tangent, PRM, RRT, APF × 2<br/>
+⭐⭐⭐⭐ 벽으로 경로 끊기
+</td>
+<td width="33%" align="center">
+<img src="images/Stage5.png" width="100%"/><br/>
+<b>Stage 5: 확률 전쟁</b><br/>
+Bug2, Tangent, APF, Belief × 2, RRT, PRM<br/>
+⭐⭐⭐⭐⭐ 노이즈로 추적 방해
+</td>
+</tr>
+</table>
+
 | Stage | 테마 | 등장 알고리즘 | 핵심 전략 | 난이도 |
 |-------|------|-------------|----------|--------|
-| **1** | 튜토리얼 | Bug1 × 3 | 기본 조작 익히기 | ⭐ |
-| **2** | 패턴 학습 | Bug1, Bug2, Tangent | 벽 따라 움직이는 패턴 파악 | ⭐⭐ |
-| **3** | APF 트랩 | Bug2, APF × 2, Tangent | U자 구조로 APF 무력화 | ⭐⭐⭐ |
-| **4** | 그래프 차단 | Tangent, PRM, RRT, APF × 2 | 벽으로 경로 끊기 | ⭐⭐⭐⭐ |
-| **5** | 확률 전쟁 | Bug2, Tangent, APF, Belief × 2, RRT, PRM | 노이즈로 추적 방해 | ⭐⭐⭐⭐⭐ |
 | **6** | **보스전** | **전 알고리즘 8마리** | 모든 기술 총동원 | ⭐⭐⭐⭐⭐⭐ |
 | **7+** | 무한 모드 | 점점 증가 (최대 12마리) | 생존 한계 도전 | ∞ |
 
 ### 💡 알고리즘별 대응 치트시트
 
-```
-Bug 계열     → 복잡한 장애물 주변으로 유도
-APF          → E키로 U자/O자 함정 만들기 ★★★
-PRM/RRT      → 벽 설치로 그래프 갱신 강제
-Belief       → Q키로 센서 교란, 벽 뒤에 숨기 ★★★
-```
+<table>
+<tr>
+<th width="25%">적 유형</th>
+<th width="75%">대응 전략</th>
+</tr>
+<tr>
+<td align="center"><b>🐛 Bug 계열</b></td>
+<td>복잡한 장애물 주변으로 유도 → 벽 따라 돌게 만들기</td>
+</tr>
+<tr>
+<td align="center"><b>⚡ APF</b></td>
+<td>🌟 <kbd>E</kbd>키로 <b>U자/O자 함정 만들기</b> → Local Minimum 유발 ★★★</td>
+</tr>
+<tr>
+<td align="center"><b>🗺️ PRM/RRT</b></td>
+<td><kbd>E</kbd>키로 벽 설치 → 그래프 갱신 강제 (경로 재계산 시간 벌기)</td>
+</tr>
+<tr>
+<td align="center"><b>🎯 Belief</b></td>
+<td>🌟 <kbd>Q</kbd>키로 <b>센서 교란</b>, 벽 뒤에 숨기 → 엉뚱한 곳으로 유도 ★★★</td>
+</tr>
+</table>
 
 ## 🚀 빠른 시작
 
+<div align="center">
+
+### 🎮 3분만에 시작하기
+
+</div>
+
 ### 설치 요구사항
-- Python 3.8 이상
-- Windows / macOS / Linux
+```
+✅ Python 3.8 이상
+✅ Windows / macOS / Linux
+```
 
 ### 1️⃣ 의존성 설치
 ```bash
@@ -130,10 +319,26 @@ run_game.bat
 ```
 
 ### 3️⃣ 첫 플레이 팁
-1. **Stage 1**에서 Bug1 적의 움직임 패턴 관찰
-2. **E키**로 벽을 세워 적 가두기 연습
-3. **대시**는 아껴두었다가 위급할 때만 사용
-4. **미니맵**을 보고 열쇠 위치 파악
+<table>
+<tr>
+<td width="25%" align="center">
+<b>1️⃣ 패턴 관찰</b><br/>
+Stage 1에서 Bug1 적의<br/>움직임 패턴 관찰
+</td>
+<td width="25%" align="center">
+<b>2️⃣ 벽 연습</b><br/>
+E키로 벽을 세워<br/>적 가두기 연습
+</td>
+<td width="25%" align="center">
+<b>3️⃣ 대시 절약</b><br/>
+대시는 아껴두었다가<br/>위급할 때만 사용
+</td>
+<td width="25%" align="center">
+<b>4️⃣ 미니맵 활용</b><br/>
+미니맵을 보고<br/>열쇠 위치 파악
+</td>
+</tr>
+</table>
 
 > 📖 자세한 공략은 [QUICKSTART.md](QUICKSTART.md) 참고
 
@@ -274,14 +479,43 @@ MIT License - 자유롭게 사용, 수정, 배포 가능합니다.
 
 <div align="center">
 
-### 🎮 지금 바로 플레이하세요!
+## 🎮 지금 바로 플레이하세요!
 
 ```bash
 python main.py
 ```
 
+### 📸 게임 스크린샷
+
+<table>
+<tr>
+<td width="50%" align="center">
+<img src="images/Stage1-1.png" width="100%"/><br/>
+<b>Stage 1: 튜토리얼 시작</b>
+</td>
+<td width="50%" align="center">
+<img src="images/Stage3.png" width="100%"/><br/>
+<b>Stage 3: APF 적 활용</b>
+</td>
+</tr>
+<tr>
+<td width="50%" align="center">
+<img src="images/Stage4.png" width="100%"/><br/>
+<b>Stage 4: 복잡한 경로 탐색</b>
+</td>
+<td width="50%" align="center">
+<img src="images/Stage5.png" width="100%"/><br/>
+<b>Stage 5: 다수 알고리즘 대응</b>
+</td>
+</tr>
+</table>
+
+---
+
 **즐거운 학습과 게임이 되시길 바랍니다!** ⭐
 
 Made with 💜 for Robotics & Game Development Education
+
+[![Star this repo](https://img.shields.io/badge/⭐-Star_this_repo-yellow?style=for-the-badge)](https://github.com/yourusername/roboescape-path-planning)
 
 </div>
