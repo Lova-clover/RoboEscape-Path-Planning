@@ -18,15 +18,17 @@ from game.enemies.bug import Bug1Enemy, Bug2Enemy, TangentBugEnemy
 from game.enemies.apf import APFEnemy
 from game.enemies.prm_rrt import PRMEnemy, RRTEnemy
 from game.enemies.belief import BeliefEnemy
+from game.menu import MainMenu, HelpScreen
 
 
 class GameState:
     """게임 상태"""
     MENU = 0
-    PLAYING = 1
-    PAUSED = 2
-    GAME_OVER = 3
-    STAGE_CLEAR = 4
+    HELP = 1
+    PLAYING = 2
+    PAUSED = 3
+    GAME_OVER = 4
+    STAGE_CLEAR = 5
 
 
 class Game:
@@ -34,8 +36,12 @@ class Game:
     
     def __init__(self, screen):
         self.screen = screen
-        self.state = GameState.PLAYING
+        self.state = GameState.MENU
         self.stage_num = 1
+        
+        # 메뉴
+        self.main_menu = MainMenu()
+        self.help_screen = HelpScreen()
         
         # 게임 오브젝트
         self.level = None
@@ -54,9 +60,6 @@ class Game:
         # 카메라
         self.camera_x = 0
         self.camera_y = 0
-        
-        # 초기화
-        self.init_stage()
     
     def init_stage(self):
         """스테이지 초기화"""
@@ -160,6 +163,27 @@ class Game:
     
     def handle_event(self, event):
         """이벤트 처리"""
+        # 메뉴 상태
+        if self.state == GameState.MENU:
+            mouse_pos = pygame.mouse.get_pos()
+            action = self.main_menu.handle_event(event, mouse_pos)
+            if action == "start":
+                self.stage_num = 1
+                self.init_stage()
+            elif action == "help":
+                self.state = GameState.HELP
+            elif action == "exit":
+                pygame.event.post(pygame.event.Event(pygame.QUIT))
+            return
+        
+        # 도움말 상태
+        if self.state == GameState.HELP:
+            mouse_pos = pygame.mouse.get_pos()
+            action = self.help_screen.handle_event(event, mouse_pos)
+            if action == "back":
+                self.state = GameState.MENU
+            return
+        
         if event.type == pygame.KEYDOWN:
             # ESC: 일시정지/재개
             if event.key == pygame.K_ESCAPE:
@@ -178,8 +202,8 @@ class Game:
                         self.stage_num = 1  # 처음부터
                     self.init_stage()
                 elif event.key == pygame.K_ESCAPE:
-                    # 종료
-                    pygame.event.post(pygame.event.Event(pygame.QUIT))
+                    # 메뉴로 돌아가기
+                    self.state = GameState.MENU
             
             # 플레이 중 스킬 사용
             if self.state == GameState.PLAYING:
@@ -209,6 +233,18 @@ class Game:
     
     def update(self, dt):
         """게임 업데이트"""
+        # 메뉴 업데이트
+        if self.state == GameState.MENU:
+            mouse_pos = pygame.mouse.get_pos()
+            self.main_menu.update(dt, mouse_pos)
+            return
+        
+        # 도움말 화면 업데이트
+        if self.state == GameState.HELP:
+            mouse_pos = pygame.mouse.get_pos()
+            self.help_screen.update(dt, mouse_pos)
+            return
+        
         if self.state != GameState.PLAYING:
             return
         
@@ -279,6 +315,16 @@ class Game:
         """게임 그리기"""
         # 배경
         self.screen.fill(COLOR_BLACK)
+        
+        # 메뉴 화면
+        if self.state == GameState.MENU:
+            self.main_menu.draw(self.screen)
+            return
+        
+        # 도움말 화면
+        if self.state == GameState.HELP:
+            self.help_screen.draw(self.screen)
+            return
         
         if self.state == GameState.PLAYING:
             # 레벨 그리기
