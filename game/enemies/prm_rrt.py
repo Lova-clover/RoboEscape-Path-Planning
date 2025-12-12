@@ -27,6 +27,7 @@ class PRMEnemy(EnemyBase):
         
         # 시각화 데이터
         self.show_graph = True
+        self.state = 'planning'  # 상태 표시용
         
         # 맵 변경 감지용
         self.last_temp_wall_count = 0
@@ -59,7 +60,7 @@ class PRMEnemy(EnemyBase):
             self.move_along_path(dt, level)
         else:
             # 경로 없으면 직접 이동
-            self.move_towards(player.x, player.y, dt)
+            self.move_towards(player.x, player.y, dt, level)
     
     def check_map_changed(self, level):
         """맵 변경 감지"""
@@ -148,7 +149,7 @@ class RRTEnemy(EnemyBase):
             self.move_along_path(dt, level)
         else:
             # 경로 없으면 직접 이동
-            self.move_towards(player.x, player.y, dt)
+            self.move_towards(player.x, player.y, dt, level)
     
     def draw(self, surface, camera_offset=(0, 0)):
         """RRT 트리 포함 그리기"""

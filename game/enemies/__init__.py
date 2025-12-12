@@ -62,13 +62,27 @@ class EnemyBase:
         if move_dist > dist:
             move_dist = dist
         
-        self.x += (dx / dist) * move_dist
-        self.y += (dy / dist) * move_dist
-        self.distance_traveled += move_dist
+        # 새 위치 계산
+        new_x = self.x + (dx / dist) * move_dist
+        new_y = self.y + (dy / dist) * move_dist
+        
+        # 벽 충돌 검사
+        new_gx = int(new_x / TILE_SIZE)
+        new_gy = int(new_y / TILE_SIZE)
+        
+        from game.grid import is_walkable
+        if is_walkable(level.grid_map, new_gx, new_gy):
+            self.x = new_x
+            self.y = new_y
+            self.distance_traveled += move_dist
+        else:
+            # 벽에 막히면 경로 재계획
+            self.path = []
+            self.path_index = 0
         
         return True
     
-    def move_towards(self, target_x, target_y, dt):
+    def move_towards(self, target_x, target_y, dt, level=None):
         """목표 지점을 향해 직접 이동"""
         dx = target_x - self.x
         dy = target_y - self.y
@@ -81,9 +95,25 @@ class EnemyBase:
         if move_dist > dist:
             move_dist = dist
         
-        self.x += (dx / dist) * move_dist
-        self.y += (dy / dist) * move_dist
-        self.distance_traveled += move_dist
+        # 새 위치 계산
+        new_x = self.x + (dx / dist) * move_dist
+        new_y = self.y + (dy / dist) * move_dist
+        
+        # 벽 충돌 검사 (만약 level이 제공되면)
+        if level is not None:
+            new_gx = int(new_x / TILE_SIZE)
+            new_gy = int(new_y / TILE_SIZE)
+            
+            from game.grid import is_walkable
+            if is_walkable(level.grid_map, new_gx, new_gy):
+                self.x = new_x
+                self.y = new_y
+                self.distance_traveled += move_dist
+        else:
+            # level이 없으면 기존 방식대로
+            self.x = new_x
+            self.y = new_y
+            self.distance_traveled += move_dist
     
     def check_stuck(self, dt):
         """제자리에 갇혔는지 확인"""
@@ -115,12 +145,19 @@ class EnemyBase:
         # 테두리
         pygame.draw.circle(surface, (255, 255, 255), (screen_x, screen_y), self.radius, 1)
         
-        # 이름 표시 (디버그용)
-        if hasattr(self, 'show_name') and self.show_name:
-            font = pygame.font.Font(None, 16)
-            text = font.render(self.name, True, (255, 255, 255))
-            text_rect = text.get_rect(center=(screen_x, screen_y - self.radius - 10))
-            surface.blit(text, text_rect)
+        # 이름과 상태 표시 (디버그용)
+        font = pygame.font.Font(None, 16)
+        
+        # 이름 표시
+        text = font.render(self.name, True, (255, 255, 255))
+        text_rect = text.get_rect(center=(screen_x, screen_y - self.radius - 20))
+        surface.blit(text, text_rect)
+        
+        # Bug 알고리즘 상태 표시
+        if hasattr(self, 'planner') and hasattr(self.planner, 'state'):
+            state_text = font.render(self.planner.state, True, (255, 255, 0))
+            state_rect = state_text.get_rect(center=(screen_x, screen_y - self.radius - 5))
+            surface.blit(state_text, state_rect)
     
     def draw_path(self, surface, camera_offset=(0, 0)):
         """경로 그리기 (디버그용)"""

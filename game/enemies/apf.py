@@ -25,6 +25,7 @@ class APFEnemy(EnemyBase):
         self.stuck_in_minimum = False
         self.minimum_escape_timer = 0
         self.escape_direction = None
+        self.state = 'tracking'  # 상태 표시용
     
     def update(self, dt, player, level):
         """업데이트"""
@@ -35,6 +36,7 @@ class APFEnemy(EnemyBase):
             self.minimum_escape_timer -= dt
             if self.minimum_escape_timer <= 0:
                 self.stuck_in_minimum = False
+                self.state = 'tracking'
                 self.escape_direction = None
             else:
                 # 랜덤 방향으로 이동
@@ -42,7 +44,7 @@ class APFEnemy(EnemyBase):
                     self.move_towards(
                         self.x + self.escape_direction[0] * 100,
                         self.y + self.escape_direction[1] * 100,
-                        dt
+                        dt, level
                     )
                 return
         
@@ -73,12 +75,15 @@ class APFEnemy(EnemyBase):
             if self.planner.detect_local_minimum(self.force_history, threshold=0.3, window=10):
                 if not self.stuck_in_minimum:
                     self.stuck_in_minimum = True
+                    self.state = 'local_minimum'
                     self.minimum_escape_timer = 1.5  # 1.5초 동안 탈출 시도
                     
                     # 랜덤 탈출 방향
                     import random
                     angle = random.uniform(0, 2 * math.pi)
                     self.escape_direction = (math.cos(angle), math.sin(angle))
+            else:
+                self.state = 'tracking'
             
             # 경로 설정
             if next_grid != current_grid:
@@ -90,4 +95,4 @@ class APFEnemy(EnemyBase):
             self.move_along_path(dt, level)
         else:
             # 직접 이동
-            self.move_towards(player.x, player.y, dt)
+            self.move_towards(player.x, player.y, dt, level)

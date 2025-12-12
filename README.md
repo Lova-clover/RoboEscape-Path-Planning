@@ -215,50 +215,51 @@
 
 <table>
 <tr>
-<td width="33%" align="center">
+<td width="50%" align="center">
 <img src="images/Stage1-1.png" width="100%"/><br/>
-<b>Stage 1-1: 튜토리얼</b><br/>
+<b>Stage 1: 튜토리얼</b><br/>
 Bug1 × 3<br/>
 ⭐ 기본 조작 익히기
 </td>
-<td width="33%" align="center">
-<img src="images/Stage1-2.png" width="100%"/><br/>
-<b>Stage 1-2: 게임플레이</b><br/>
-Bug1 적들과의 추격전<br/>
-⭐ 기본 조작 연습
-</td>
-<td width="33%" align="center">
+<td width="50%" align="center">
 <img src="images/Stage2.png" width="100%"/><br/>
 <b>Stage 2: 패턴 학습</b><br/>
 Bug1, Bug2, Tangent<br/>
-⭐⭐ 벽 따라 움직이는 패턴
+⭐⭐ 세 가지 Bug 알고리즘 비교
 </td>
 </tr>
 <tr>
-<td width="33%" align="center">
+<td width="50%" align="center">
 <img src="images/Stage3.png" width="100%"/><br/>
 <b>Stage 3: APF 트랩</b><br/>
-Bug2, APF × 2, Tangent<br/>
+Bug2 × 2, APF × 2, Tangent<br/>
 ⭐⭐⭐ U자 구조로 APF 무력화
 </td>
-<td width="33%" align="center">
+<td width="50%" align="center">
 <img src="images/Stage4.png" width="100%"/><br/>
 <b>Stage 4: 그래프 차단</b><br/>
-Tangent, PRM, RRT, APF × 2<br/>
-⭐⭐⭐⭐ 벽으로 경로 끊기
+Bug2, Tangent, PRM, RRT, APF × 2<br/>
+⭐⭐⭐⭐ 샘플링 알고리즘 대응
 </td>
-<td width="33%" align="center">
+</tr>
+<tr>
+<td width="50%" align="center">
 <img src="images/Stage5.png" width="100%"/><br/>
 <b>Stage 5: 확률 전쟁</b><br/>
 Bug2, Tangent, APF, Belief × 2, RRT, PRM<br/>
 ⭐⭐⭐⭐⭐ 노이즈로 추적 방해
+</td>
+<td width="50%" align="center">
+<img src="images/Stage6.png" width="100%"/><br/>
+<b>Stage 6: 보스전</b><br/>
+Bug1, Bug2, Tangent, APF, PRM, RRT, Belief × 2<br/>
+⭐⭐⭐⭐⭐⭐ 모든 알고리즘 총동원
 </td>
 </tr>
 </table>
 
 | Stage | 테마 | 등장 알고리즘 | 핵심 전략 | 난이도 |
 |-------|------|-------------|----------|--------|
-| **6** | **보스전** | **전 알고리즘 8마리** | 모든 기술 총동원 | ⭐⭐⭐⭐⭐⭐ |
 | **7+** | 무한 모드 | 점점 증가 (최대 12마리) | 생존 한계 도전 | ∞ |
 
 ### 💡 알고리즘별 대응 치트시트

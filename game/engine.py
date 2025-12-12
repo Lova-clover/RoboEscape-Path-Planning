@@ -90,53 +90,53 @@ class Game:
         """적 스폰 (스테이지별)"""
         if self.stage_num == 1:
             # Stage 1: Bug1 튜토리얼 - 기본 추격 학습
-            self.enemies.append(Bug1Enemy(*grid_to_world(15, 10)))
-            self.enemies.append(Bug1Enemy(*grid_to_world(25, 12)))
-            self.enemies.append(Bug1Enemy(*grid_to_world(20, 8)))  # +1
+            self._safe_spawn(Bug1Enemy, 15, 10)
+            self._safe_spawn(Bug1Enemy, 25, 12)
+            self._safe_spawn(Bug1Enemy, 20, 8)
         elif self.stage_num == 2:
             # Stage 2: Bug 변형들 - 다양한 추격 패턴
-            self.enemies.append(Bug1Enemy(*grid_to_world(12, 8)))
-            self.enemies.append(Bug2Enemy(*grid_to_world(20, 15)))
-            self.enemies.append(TangentBugEnemy(*grid_to_world(28, 10)))
+            self._safe_spawn(Bug1Enemy, 12, 8)
+            self._safe_spawn(Bug2Enemy, 20, 15)
+            self._safe_spawn(TangentBugEnemy, 28, 10)
         
         elif self.stage_num == 3:
             # Stage 3: APF 등장 - 로컬 미니멈 활용
-            self.enemies.append(Bug2Enemy(*grid_to_world(15, 8)))
-            self.enemies.append(Bug2Enemy(*grid_to_world(32, 18)))  # +1
-            self.enemies.append(APFEnemy(*grid_to_world(20, 15)))
-            self.enemies.append(APFEnemy(*grid_to_world(30, 10)))
-            self.enemies.append(TangentBugEnemy(*grid_to_world(25, 8)))  # +1
+            self._safe_spawn(Bug2Enemy, 15, 8)
+            self._safe_spawn(Bug2Enemy, 32, 18)
+            self._safe_spawn(APFEnemy, 20, 15)
+            self._safe_spawn(APFEnemy, 30, 10)
+            self._safe_spawn(TangentBugEnemy, 25, 8)
         
         elif self.stage_num == 4:
             # Stage 4: Sampling-based - 그래프/트리 경로
-            self.enemies.append(Bug2Enemy(*grid_to_world(10, 6)))  # +1
-            self.enemies.append(TangentBugEnemy(*grid_to_world(12, 8)))
-            self.enemies.append(PRMEnemy(*grid_to_world(20, 15), self.level.grid_map))
-            self.enemies.append(RRTEnemy(*grid_to_world(28, 12)))
-            self.enemies.append(APFEnemy(*grid_to_world(35, 10)))
-            self.enemies.append(APFEnemy(*grid_to_world(38, 18)))  # +1
+            self._safe_spawn(Bug2Enemy, 10, 6)
+            self._safe_spawn(TangentBugEnemy, 12, 8)
+            self._safe_spawn_prm(20, 15)
+            self._safe_spawn(RRTEnemy, 28, 12)
+            self._safe_spawn(APFEnemy, 35, 10)
+            self._safe_spawn(APFEnemy, 38, 18)
         
         elif self.stage_num == 5:
             # Stage 5: Belief 등장 - 확률적 추적
-            self.enemies.append(Bug2Enemy(*grid_to_world(12, 8)))
-            self.enemies.append(TangentBugEnemy(*grid_to_world(10, 18)))  # +1
-            self.enemies.append(APFEnemy(*grid_to_world(18, 15)))
-            self.enemies.append(BeliefEnemy(*grid_to_world(25, 10)))
-            self.enemies.append(RRTEnemy(*grid_to_world(32, 12)))
-            self.enemies.append(BeliefEnemy(*grid_to_world(38, 16)))
-            self.enemies.append(PRMEnemy(*grid_to_world(35, 8), self.level.grid_map))  # +1
+            self._safe_spawn(Bug2Enemy, 12, 8)
+            self._safe_spawn(TangentBugEnemy, 10, 18)
+            self._safe_spawn(APFEnemy, 18, 15)
+            self._safe_spawn(BeliefEnemy, 25, 10)
+            self._safe_spawn(RRTEnemy, 32, 12)
+            self._safe_spawn(BeliefEnemy, 38, 16)
+            self._safe_spawn_prm(35, 8)
         
         elif self.stage_num == 6:
             # Stage 6: 보스전 - 모든 알고리즘 총동원!
             # 외곽에 배치
-            self.enemies.append(Bug1Enemy(*grid_to_world(10, 6)))
-            self.enemies.append(Bug2Enemy(*grid_to_world(35, 6)))
-            self.enemies.append(TangentBugEnemy(*grid_to_world(10, 18)))
-            self.enemies.append(APFEnemy(*grid_to_world(35, 18)))
-            self.enemies.append(PRMEnemy(*grid_to_world(15, 11), self.level.grid_map))
-            self.enemies.append(RRTEnemy(*grid_to_world(30, 11)))
-            self.enemies.append(BeliefEnemy(*grid_to_world(22, 8)))
-            self.enemies.append(BeliefEnemy(*grid_to_world(22, 16)))
+            self._safe_spawn(Bug1Enemy, 10, 6)
+            self._safe_spawn(Bug2Enemy, 35, 6)
+            self._safe_spawn(TangentBugEnemy, 10, 18)
+            self._safe_spawn(APFEnemy, 35, 18)
+            self._safe_spawn_prm(15, 11)
+            self._safe_spawn(RRTEnemy, 30, 11)
+            self._safe_spawn(BeliefEnemy, 22, 8)
+            self._safe_spawn(BeliefEnemy, 22, 16)
         
         else:
             # Stage 7+: 무한 난이도 상승
@@ -160,6 +160,81 @@ class Game:
                     self.enemies.append(RRTEnemy(*grid_to_world(spawn_x, spawn_y)))
                 else:
                     self.enemies.append(BeliefEnemy(*grid_to_world(spawn_x, spawn_y)))
+    
+    def _safe_spawn(self, enemy_class, grid_x, grid_y):
+        """벽을 피해서 적을 안전하게 스폰"""
+        # 먼저 지정된 위치가 안전한지 확인
+        if self.level.grid_map[grid_y][grid_x] == 0:
+            self.enemies.append(enemy_class(*grid_to_world(grid_x, grid_y)))
+            return
+        
+        # 안전하지 않으면 가까운 안전한 위치 찾기 (BFS)
+        from collections import deque
+        visited = set()
+        queue = deque([(grid_x, grid_y, 0)])
+        visited.add((grid_x, grid_y))
+        
+        while queue:
+            cx, cy, dist = queue.popleft()
+            
+            # 8방향 확인 (대각선 포함)
+            for dx, dy in [(-1,0), (1,0), (0,-1), (0,1), (-1,-1), (-1,1), (1,-1), (1,1)]:
+                nx, ny = cx + dx, cy + dy
+                
+                if (nx, ny) in visited:
+                    continue
+                if nx < 0 or nx >= 40 or ny < 0 or ny >= 22:
+                    continue
+                    
+                visited.add((nx, ny))
+                
+                # 안전한 위치 발견
+                if self.level.grid_map[ny][nx] == 0:
+                    self.enemies.append(enemy_class(*grid_to_world(nx, ny)))
+                    return
+                
+                # 계속 탐색 (최대 5칸까지만)
+                if dist < 5:
+                    queue.append((nx, ny, dist + 1))
+        
+        # 안전한 위치를 찾지 못하면 원래 위치에 스폰 (플레이어 시작 위치로)
+        px, py = world_to_grid(*self.player.pos)
+        self.enemies.append(enemy_class(*grid_to_world(px + 2, py)))
+    
+    def _safe_spawn_prm(self, grid_x, grid_y):
+        """PRM은 grid_map이 필요하므로 별도 메서드"""
+        if self.level.grid_map[grid_y][grid_x] == 0:
+            self.enemies.append(PRMEnemy(*grid_to_world(grid_x, grid_y), self.level.grid_map))
+            return
+        
+        # BFS로 안전한 위치 찾기
+        from collections import deque
+        visited = set()
+        queue = deque([(grid_x, grid_y, 0)])
+        visited.add((grid_x, grid_y))
+        
+        while queue:
+            cx, cy, dist = queue.popleft()
+            
+            for dx, dy in [(-1,0), (1,0), (0,-1), (0,1), (-1,-1), (-1,1), (1,-1), (1,1)]:
+                nx, ny = cx + dx, cy + dy
+                
+                if (nx, ny) in visited:
+                    continue
+                if nx < 0 or nx >= 40 or ny < 0 or ny >= 22:
+                    continue
+                    
+                visited.add((nx, ny))
+                
+                if self.level.grid_map[ny][nx] == 0:
+                    self.enemies.append(PRMEnemy(*grid_to_world(nx, ny), self.level.grid_map))
+                    return
+                
+                if dist < 5:
+                    queue.append((nx, ny, dist + 1))
+        
+        px, py = world_to_grid(*self.player.pos)
+        self.enemies.append(PRMEnemy(*grid_to_world(px + 2, py), self.level.grid_map))
     
     def handle_event(self, event):
         """이벤트 처리"""

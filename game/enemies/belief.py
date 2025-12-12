@@ -29,6 +29,7 @@ class BeliefEnemy(EnemyBase):
         # 측정 주기
         self.measurement_timer = 0
         self.measurement_interval = 0.5  # 0.5초마다 센서 측정
+        self.state = 'estimating'  # 상태 표시용
         
         # 노이즈 효과
         self.is_noised = False
@@ -79,7 +80,7 @@ class BeliefEnemy(EnemyBase):
         estimated_pos = self.planner.get_mean_position()
         
         # 목표를 향해 이동
-        self.move_towards(estimated_pos[0], estimated_pos[1], dt)
+        self.move_towards(estimated_pos[0], estimated_pos[1], dt, level)
         
         # 간혹 랜덤 탐색 (belief 불확실성 높을 때)
         max_belief = np.max(self.planner.belief)
@@ -89,7 +90,7 @@ class BeliefEnemy(EnemyBase):
             import math
             rand_x = self.x + math.cos(angle) * 50
             rand_y = self.y + math.sin(angle) * 50
-            self.move_towards(rand_x, rand_y, dt * 0.5)
+            self.move_towards(rand_x, rand_y, dt * 0.5, level)
     
     def apply_noise_effect(self, duration=3.0):
         """노이즈 폭탄 효과 적용"""
