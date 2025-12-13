@@ -513,6 +513,13 @@ python main.py
 
 ---
 
+## 📘 More Details
+RoboEscape를 어떻게 설계 및 개발했는지, 알고리즘 구현/시각화 과정과 회고는 아래 블로그에서 자세히 정리했습니다.
+
+- [RoboEscape: Algorithm Hunters – 7가지 Path-Planning 알고리즘으로 만든 교육용 게임 (Velog)](https://velog.io/@lova-clover/RoboEscape-Algorithm-Hunters-7%EA%B0%80%EC%A7%80-Path-Planning-%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98%EC%9C%BC%EB%A1%9C-%EB%A7%8C%EB%93%A0-%EA%B5%90%EC%9C%A1%EC%9A%A9-%EA%B2%8C%EC%9E%84)
+
+---
+
 **즐거운 학습과 게임이 되시길 바랍니다!** ⭐
 
 Made with 💜 for Robotics & Game Development Education
